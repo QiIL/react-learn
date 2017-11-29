@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
 
 function formatName(user) {
@@ -70,32 +70,98 @@ function formatDate(date) {
 function Comment(props) {
   return (
     <div className="Comment">
-      <div className="UserInfo">
-        <img
-          className="Avatar"
-          src={props.author.avatarUrl}
-          alt={props.author.name}
-        />
-        <div className="UserInfo-name">
-          {props.author.name}
-        </div>
-      </div>
-      <div className="Comment-text">
-        {props.text}
-      </div>
-      <div className="Comment-date">
-        {formatDate(props.date)}
-      </div>
+      <UserInfo user={props.author} />
+      <div className="Comment-text">{props.text}</div>
+      <div className="Comment-date">{formatDate(props.date)}</div>
     </div>
   )
 }
 
-render(element4, document.getElementById('root'))
-// setInterval(tick, 2000)
-setTimeout(function() {
-  render(<App />, document.getElementById('root'))
-}, 1500)
-const element5 = <Comment text="QiLL is very exciting" date={Date.now} author={user}/>
-setTimeout(function() {
-  render(element5, document.getElementById('root'))
-}, 1500)
+function Avatar(props) {
+  return (
+    <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
+  )
+}
+
+function UserInfo(props) {
+  return (
+    <div className=" ">
+      <Avatar user={props.user} />
+      <div className="UserInfo-name">{props.user.name}</div>
+    </div>
+  )
+}
+
+class Clock extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { date: new Date(), cal: 1, inc: 1 }
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
+
+  tick() {
+    this.setState({
+      date: new Date(),
+      cal: this.state.cal + 1
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, word!</h1>
+        <h2>It is {this.state.date.toLocaleString()}.</h2>
+        <h3>{this.state.cal} seconds is pass</h3>
+      </div>
+    )
+  }
+}
+
+class Toggle extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { isToggleOn: true }
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }))
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
+    )
+  }
+}
+
+// render(element4, document.getElementById('root'))
+// // setInterval(tick, 2000)
+// setTimeout(function() {
+//   render(<App />, document.getElementById('root'))
+// }, 1500)
+// const element5 = (
+//   <Comment text="QiLL is very exciting" date={new Date()} author={user} />
+// )
+// setTimeout(function() {
+//   render(element5, document.getElementById('root'))
+// }, 1500)
+
+render(
+  <div>
+    <Clock />
+    <Toggle />
+  </div>,
+  document.getElementById('root')
+)
