@@ -92,6 +92,7 @@ function UserInfo(props) {
   )
 }
 
+// 事件处理
 class Clock extends Component {
   constructor(props) {
     super(props)
@@ -186,6 +187,7 @@ class Popper extends Component {
 //   render(element5, document.getElementById('root'))
 // }, 1500)
 
+// 条件渲染
 function UserGreeting(props) {
   return <h1>Welcome back</h1>
 }
@@ -286,6 +288,16 @@ class Page extends Component {
   }
 }
 
+// 列表
+const number = [1, 2, 3, 4, 5]
+const listItem = number.map(num => <li>{num * 2}</li>)
+
+function NumberList(props) {
+  const numbers = props.number
+  const listItem = numbers.map(num => <li key={num.toString()}>{num}</li>)
+  return <ul>{listItem}</ul>
+}
+
 render(
   <div>
     <Clock />
@@ -295,6 +307,7 @@ render(
     <LoginControl />
     <Mailbox unreadMessages={messages} />
     <Page />
+    <NumberList number={number}/>
   </div>,
   document.getElementById('root')
 )
